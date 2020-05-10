@@ -10,7 +10,7 @@ approximations.m (function)
   - evaluates PDE solution approximation, semi approximation & exact solution
   
 caustic_diagrams.m
-  - plots the create of the primary caustic when full or half family of rays enters a spherical droplet
+  - plots the creation of the primary caustic when full or half family of rays enters a spherical droplet
   - refractive indices of droplet and exterior may be changed, but droplet must be more dense than exterior
   
 contourdata.m (function)
