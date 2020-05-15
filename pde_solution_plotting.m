@@ -12,26 +12,27 @@
 
 clear
 close all
+warning('off')
 
 % SET VALUES (col = heatmap colour)
 tt = 30; %only applies to 2d graphs
 ep = 0.125; %0.125 for the heatmap :: 0.5 for the 2d solutions
-col = hot;
+col = jet; %specify plot colours
+n = 1000; %determine size of grid
 
 % WHICH DIAGRAM IS REQUIRED
 exact = 0;
-fullapprox = 1;
-semiapprox = 0;
+fullapprox = 0;
+semiapprox = 1;
 
 % 2D solution graph or heat map thing?
-twoD = 1;
-threeD = 0;
+twoD = 0;
+threeD = 1;
 
 % 2d graphs
 if twoD==1
     
 %     set axes
-    n = 1000;
     xmin = -50;
     xmax = 120;
     xgaps = (xmax-xmin)/(n-1);
@@ -44,7 +45,7 @@ if twoD==1
     
 %     fill matrices with evaluations of the integral for each x
     for p=1:length(x)
-        [PHI,X,exI] = approximations(x(p),tt,ep);
+        [PHI,X,exI] = approximations(x(p),tt,ep,exact);
         I(p) = PHI;
         J(p) = X;
         K(p) = exI;
@@ -85,6 +86,7 @@ if twoD==1
     % % SAVE
     set(gcf, 'Position',  [50, 50, 560, 500])
     ax = gca;
+    ax.FontName = 'Times';
     % ax.FontSize = 12;
     set(h,'Units','Inches');
     pos = get(h,'Position');
@@ -96,7 +98,6 @@ end
 if threeD==1
     
 %     set axes
-    n = 1000;
     xmin = -20;
     xmax = 20;
     tmin = 0;
@@ -114,7 +115,7 @@ if threeD==1
 %     evaluate for all values of (x,t) in grid
     for p=1:n
         for q=1:n
-            [PHI,X,exI] = approximations(x(p),t(q),ep);
+            [PHI,X,exI] = approximations(x(p),t(q),ep,exact);
             I(q,p) = PHI-atan(x(p));
             J(q,p) = X-atan(x(p));
             K(q,p) = exI-atan(x(p));
@@ -129,36 +130,60 @@ if threeD==1
     if fullapprox == 1
 %     plot for all contributions
         h = figure; hold on
-        surf(x,t,-I,'EdgeColor','none')
-        colormap(hot)
+        surf(x,t,I,'EdgeColor','none')
+        colormap(col)
+        xlabel('$x$','Interpreter','Latex')
+        ylabel('time $t$','Interpreter','Latex')
         hold off
+            % % SAVE
+        set(gcf, 'Position',  [50, 50, 600, 560])
+        ax = gca;
+        ax.FontName = 'Times';
+        ax.FontSize = 12; 
+        view([-60,-150,50])
+        set(h,'Units','Inches');
+        pos = get(h,'Position');
+        set(h,'PaperPositionMode','Auto','PaperUnits','Inches','PaperSize', [6, 6])
+        print(h,'pde_full_approximation.png','-dpng','-r300'); 
     end
     
     if semiapprox == 1
 %     same thing for no subdominant
         h = figure; hold on
-        surf(x,t,-J,'EdgeColor','none')
+        surf(x,t,J,'EdgeColor','none')
         colormap(col)
+        xlabel('$x$','Interpreter','Latex')
+        ylabel('time $t$','Interpreter','Latex')
         hold off
+            % % SAVE
+        set(gcf, 'Position',  [50, 50, 600, 560])
+        ax = gca;
+        ax.FontName = 'Times';
+        ax.FontSize = 12;
+        set(h,'Units','Inches');
+        pos = get(h,'Position');
+        set(h,'PaperPositionMode','Auto','PaperUnits','Inches','PaperSize', [6, 6])
+        print(h,'pde_semi_approximation2.png','-dpng','-r300'); 
     end
 
     if exact == 1
 %     EXACT SOLUTION
         h = figure; hold on
-        surf(x,t,-K,'EdgeColor','none')
+        surf(x,t,K,'EdgeColor','none')
         colormap(col)
+        xlabel('$x$','Interpreter','Latex')
+        ylabel('time','Interpreter','Latex')
         hold off
+            % % SAVE
+        set(gcf, 'Position',  [50, 50, 560, 500])
+        ax = gca;
+        ax.FontName = 'Times';
+        ax.FontSize = 12;
+        set(h,'Units','Inches');
+        pos = get(h,'Position');
+        set(h,'PaperPositionMode','Auto','PaperUnits','Inches','PaperSize', [6, 6])
+        print(h,'pde_exact_solution.png','-dpng','-r300'); 
     end
-
-
-    % % SAVE
-    set(gcf, 'Position',  [50, 50, 560, 500])
-    ax = gca;
-    % ax.FontSize = 12;
-    set(h,'Units','Inches');
-    pos = get(h,'Position');
-    set(h,'PaperPositionMode','Auto','PaperUnits','Inches','PaperSize', [5.6, 5])
-    print(h,'SURF_approx.png','-dpng','-r300'); 
     
 
 end

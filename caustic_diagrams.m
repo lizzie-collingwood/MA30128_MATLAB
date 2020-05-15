@@ -6,7 +6,7 @@ clear
 close all
 
 % number of rays (must be atleast 2)
-n = 50;
+n = 100;
 
 % show colour gradient?
 colourgradient = 0;
@@ -20,7 +20,7 @@ vc = 0;
 
 % refractive indices (inside droplet must be greater than outside)
 insidedroplet = 1.333;      % water:1.333 diamond:2.417 ice:1.31
-outsidedroplet = 1;         % air:1.000277
+outsidedroplet = 1.000277;         % air:1.000277
 ratio = outsidedroplet/insidedroplet;
 
 % radius and centre of circle

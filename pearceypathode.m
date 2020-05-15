@@ -1,10 +1,15 @@
-function Yp = pearceypathode(t, Y, a)
+function Yp = pearceypathode(t, Y, a, airy)
     x = Y(1);
     y = Y(2);
-    f = Y(3);
     
     z = x + 1i*y;
-    fp = -1i*(z.^3 + z+ a);
+    
+    if airy==1
+%     airy
+        fp = -z.^2+a;
+    else
+        fp = -1i*(z.^3 + z + a);
+    end
     
     xt = -real(fp);
     yt = imag(fp);

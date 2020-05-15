@@ -60,16 +60,22 @@ v2 = real(airy(w_2));
 %%
 % plot REAL AIRY 3D surface
 h = figure;
-surfc(a,b,re,'FaceAlpha',0.55)
+surfc(a,b,re,'FaceAlpha',0.45)
 hold on
 colormap(winter)
-axis([min max min max min max])
+axis([min max min max -1 1])
 caxis([min max])
+
+plot3(real(a),imag(a),airy(a),'r','LineWidth',2)
 
 % save as high res png
 set(gcf, 'Position',  [50, 50, 550, 450])
 ax = gca;
+ax.FontName = 'Times';
 ax.FontSize = 12; 
+xlabel('$\Re(x)$','Interpreter','Latex')
+ylabel('$\Im(x)$','Interpreter','Latex')
+zlabel('$\Re\big(\mathrm{Ai}(x)\big)$','Interpreter','Latex')
 set(h,'Units','Inches');
 pos = get(h,'Position');
 set(h,'PaperPositionMode','Auto','PaperUnits','Inches','PaperSize', [5,4])
@@ -121,8 +127,8 @@ close all
 
 % contour plot
 h = figure();
-set(gcf, 'Position',  [400, 400, 550, 470])
-contourf(A,B,real(f),30);
+set(gcf, 'Position',  [400, 400, 400, 330])
+contourf(A,B,real(f),30,'LineWidth',0.2);
 hold on
 
 % plot formatting
@@ -131,6 +137,8 @@ yticks([])
 caxis([-30,30])
 colormap(winter)
 ylim([min,max])
+xlabel('$\Re(z)$','Interpreter','Latex')
+ylabel('$\Im(z)$','Interpreter','Latex')
 c.Ticks = ([]);
 
 % add the saddle points
@@ -142,7 +150,7 @@ fplot(@(x) sqrt(3*((x).^2-1)),[min,0], 'w', 'LineWidth',2,'ShowPoles','off')
 fplot(@(x) -sqrt(3*((x).^2-1)),[min,0], 'w', 'LineWidth',2,'ShowPoles','off')
 
 % save as pdf
-set(gcf, 'Position',  [50, 50, 550, 450])
+set(gcf, 'Position',  [50, 50, 450, 400])
 ax = gca;
 ax.FontSize = 12; 
 set(h,'Units','Inches');

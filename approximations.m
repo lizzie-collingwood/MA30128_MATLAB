@@ -1,9 +1,8 @@
 
-function [PHI,X,exI] = approximations(s,t,ep)
+function [PHI,X,exI] = approximations(s,t,ep,exact)
 
 % COMPUTE APPROXIMATION FOR ANY VALUE OF S AND T
 % ALSO COMPUTES EXACT VALUE
-
 
 
 %     FUNCTIONS
@@ -57,22 +56,24 @@ else
     X = PHI;
 end
 
-% EXACT INTEGRAL
-% %     DEFINE INTEGRANDS
-% integrand1 = @(p) -1i*p.*exp(-f1(s,t,p)/ep)./(2*(1 - p.^2));
-% integrand2 = @(p) 1i*p.*exp(-f2(s,t,p)/ep)./(2*(1 - p.^2));
-% integrand3 = @(p) 1i*p.*exp(-f3(s,t,p)/ep)./(2*(1 - p.^2));
-% integrand4 = @(p) -1i*p.*exp(-f4(s,t,p)/ep)./(2*(1 - p.^2));
-% %     EXACT INTEGRATION
-% exI1 = quadgk(integrand1,0,inf);
-% exI2 = quadgk(integrand2,0,inf);
-% exI3 = quadgk(integrand3,0,inf);
-% exI4 = quadgk(integrand4,0,inf);
-% 
-% exI = exI1 + exI2 + exI3 + exI4 + atan(s);
-
-exI = 0;
-
+if exact == 1
+    %     EXACT INTEGRAL
+    %     DEFINE INTEGRANDS
+    integrand1 = @(p) -1i*p.*exp(-f1(s,t,p)/ep)./(2*(1 - p.^2));
+    integrand2 = @(p) 1i*p.*exp(-f2(s,t,p)/ep)./(2*(1 - p.^2));
+    integrand3 = @(p) 1i*p.*exp(-f3(s,t,p)/ep)./(2*(1 - p.^2));
+    integrand4 = @(p) -1i*p.*exp(-f4(s,t,p)/ep)./(2*(1 - p.^2));
+    %     EXACT INTEGRATION
+    exI1 = quadgk(integrand1,0,inf);
+    exI2 = quadgk(integrand2,0,inf);
+    exI3 = quadgk(integrand3,0,inf);
+    exI4 = quadgk(integrand4,0,inf);
+    
+    exI = exI1 + exI2 + exI3 + exI4 + atan(s);
+else
+    exI = 0;
+end
+    
 end
 
 
